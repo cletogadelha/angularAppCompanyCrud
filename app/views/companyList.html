@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<body class="skin-blue" ng-controller="ListCtrl">
+  <section class="content">
+    <div id="divMsg">
+      <div class="alert alert-success" ng-show="mensagemSucesso">
+        {{mensagemSucesso}}
+      </div>
+      <div class="alert alert-danger" ng-show="mensagemErro">
+        {{mensagemErro}}
+      </div>
+    </div>
+
+    <div class="row form-group">
+      <p align="right">
+        <h1 style="float: left">Companies</h1>
+        <a style="float: right; position: relative; top: 30px;" class="pull-rigth glyphicon glyphicon-plus btn btn-primary" ng-href="#/colaborador">
+          New
+        </a>
+      </p>
+      <input class="form-control" ng-model="filterCompany" type="search" placeholder="Search by Company's Name">
+    </div>
+
+    <br/>
+
+    <div ng-init="limit = 10">
+      <div class="col-lg-6 col-xs-6" ng-repeat="company in companies
+                                                      | filter: {name : filterCompany}
+                                                      | limitTo: limit as results
+                                                  ">
+        <!-- small box -->
+        <div class="small-box bg-aqua">
+          <div class="icon">
+            <i class="fa fa-tasks"></i>
+          </div>
+          <div class="inner">
+            <h2>{{company.name}}</h2>
+            <p>Employees:
+              {{company.employeeList.length}}</p>
+          </div>
+          <a class="small-box-footer" ng-href="#/colaborador/{{colab.id}}">
+            More Information
+            <i class="fa fa-arrow-circle-right"></i>
+          </a>
+        </div>
+      </div>
+      <!-- ./col -->
+    </div>
+    <div class="row" ng-hide="results.length === companies.length || filterCompany.length > 0">
+      <center>
+        <a class="btn btn-circle btn-primary" ng-click="limit = limit+10">More</a>
+      </center>
+    </div>
+  </section>
+</body>

@@ -15,11 +15,7 @@ var app = angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch',
-    'flow',
-    'ngSanitize',
-    'ui.select',
-    'uiGmapgoogle-maps'
+    'ngTouch'
   ])
   .config(function($routeProvider) {
     $routeProvider
@@ -27,26 +23,21 @@ var app = angular
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
       })
-      .when('/template', {
-        templateUrl: 'views/template.html',
-        controller: 'AboutCtrl',
-        controllerAs: 'about'
-      })
-      .when('/lista', {
-        templateUrl: 'views/listaColab.html',
-        controller: 'MyCtrl'
+      .when('/list', {
+        templateUrl: 'views/companyList.html',
+        controller: 'ListCtrl'
       })
       .when('/colaborador', {
-        templateUrl: 'views/colaboradorView.html',
-        controller: 'ColabCtrl'
+        templateUrl: 'views/companyView.html',
+        controller: 'CompanyCtrl'
+      })
+      .when('/editarColab/:idColab', {
+        templateUrl: 'views/companyView.html',
+        controller: 'CompanyCtrl'
       })
       .when('/colaborador/:idColab', {
         templateUrl: 'views/infoColaboradorView.html',
         controller: 'InfoColabCtrl'
-      })
-      .when('/editarColab/:idColab', {
-        templateUrl: 'views/colaboradorView.html',
-        controller: 'ColabCtrl'
       })
       .otherwise({
         redirectTo: '/'
