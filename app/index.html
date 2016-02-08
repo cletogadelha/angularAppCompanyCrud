@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width">
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <!-- endbower -->
     <!-- FontAwesome -->
     <link href="styles/css/font-awesome.css" rel="stylesheet" type="text/css"/>
     <!-- Ionicons -->
@@ -15,13 +16,14 @@
     <link href="styles/css/AdminLTE.css" rel="stylesheet" type="text/css"/>
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
-
+    <!-- endbuild -->
   </head>
+
   <body ng-app="angularSpringApp">
     <!--[if lte IE 8]> <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p> <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div id="cabecalho" class="header">
+    <div id="header" class="header">
       <div class="container">
         <div class="navbar-header navbar-brand">
           AngularSpring
@@ -30,7 +32,7 @@
     </div>
 
     <div class="container">
-      <div ng-view></div>
+      <div ng-view=""></div>
     </div>
 
     <div class="footer">
@@ -59,7 +61,7 @@
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/companyListController.js"></script>
     <script src="scripts/controllers/companyController.js"></script>
-    <script src="scripts/controllers/infoColabController.js"></script>
+    <script src="scripts/controllers/infoCompanyController.js"></script>
     <script src="scripts/controllers/loginController.js"></script>
     <script src="scripts/factories/companyFactory.js"></script>
     <!-- endbuild -->

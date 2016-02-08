@@ -27,17 +27,17 @@ var app = angular
         templateUrl: 'views/companyList.html',
         controller: 'ListCtrl'
       })
-      .when('/colaborador', {
+      .when('/company', {
         templateUrl: 'views/companyView.html',
         controller: 'CompanyCtrl'
       })
-      .when('/editarColab/:idColab', {
+      .when('/editCompany/:idCompany', {
         templateUrl: 'views/companyView.html',
         controller: 'CompanyCtrl'
       })
-      .when('/colaborador/:idColab', {
+      .when('/company/:idCompany', {
         templateUrl: 'views/infoColaboradorView.html',
-        controller: 'InfoColabCtrl'
+        controller: 'InfoCompanyCtrl'
       })
       .otherwise({
         redirectTo: '/'

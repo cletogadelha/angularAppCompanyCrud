@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 
-<body ng-controller="ColabCtrl">
+<body ng-controller="CompanyCtrl">
   <h1 class="text-center">Company</h1>
-  <form name="formColab" ng-submit="saveCompany()">
+  <form name="formCompany" ng-submit="saveCompany()">
     <div id="divMsg">
       <div class="alert alert-success" ng-show="successMsg">
         {{successMsg}}
@@ -17,76 +17,85 @@
     <a style="cursor: pointer; text-decoration: none !important;" class='fa fa-arrow-left fa-2x pull-left' ng-href='#/list' title="Back" type="button"></a>
   </br>
 </br>
-<!-- NOME COLABORADOR -->
+<!-- COMPANY NAME -->
 <div class="form-group">
-  <input class="form-control" id="nome" placeholder="Nome Completo" required name="nome" ng-model="colaborador.nome" type="text">
+  <input class="form-control" id="name" placeholder="Name" required name="name" ng-model="company.name" type="text">
 </div>
-<!-- /NOME COLABORADOR -->
-<!-- PROFISSAO COLABORADOR -->
+<!-- /COMPANY NAME -->
+<!-- COMPANY ADDRESS -->
 <div class="form-group">
-  <select class="form-control" name="profissao" id="profissaoSelect" ng-model="colaborador.profissao" required>
-    <option value="">Selecione sua Profissão</option>
-    <option ng-repeat="prof in profissoesDisponiveis" value="{{prof.profissao}}">{{prof.profissao}}</option>
+  <input class="form-control" id="address" placeholder="Address" required name="address" ng-model="company.address" type="text">
+</div>
+<!-- /COMPANY ADDRESS -->
+<!-- COMPANY COUNTRY-->
+<div class="form-group">
+  <select class="form-control" name="country" id="countrySelect" ng-model="company.country" ng-change="setCities(company.country, true)" required>
+    <option value="">Select the Country</option>
+    <option ng-repeat="country in countries" value="{{country.name}}">{{country.name}}</option>
   </select>
 </div>
-<!-- /PROFISSAO COLABORADOR -->
-<!-- localTrabalho COLABORADOR -->
+<!-- /COMPANY COUNTRY -->
+<!-- COMPANY CITY-->
 <div class="form-group">
-  <select class="form-control" name="localTrabalho" id="localTrabalhoSelect" ng-model="colaborador.localTrabalho" required>
-    <option value="">Selecione seu Local de Trabalho</option>
-    <option ng-repeat="local in localTrabalhoDisponiveis" value="{{local.localizacao}}">{{local.localizacao}}</option>
+  <select class="form-control" name="city" id="citySelect" ng-model="company.city" required>
+    <option value=''>Select the City</option>
+    <option ng-repeat="city in cities" value="{{city}}">{{city}}</option>
   </select>
-
 </div>
-<!-- /localTrabalho COLABORADOR -->
-<!-- biografia COLABORADOR -->
+<!-- /COMPANY CITY -->
+<!-- COMPANY EMAIL-->
 <div class="form-group">
-  <textarea class="form-control" ng-model="colaborador.biografia" name="biografia" id="biografiaTextArea" required placeholder="Fale um pouco de você" ng-trim="false"/>
+  <input class="form-control" type="email" id="email" placeholder="E-mail" name="email" ng-model="company.email">
+  <div ng-show="formCompany.email.$error.email">
+    <span style="color:red">Error: Enter a valid email address
+    </span>
+  </div>
 </div>
-<!-- /biografia COLABORADOR -->
-<!-- competencias COLABORADOR -->
+<!-- /COMPANY EMAIL -->
+<!-- COMPANY PHONENUMBER -->
 <div class="form-group">
-  <label for="competencias">Competências</label>
-  <ui-select class="form-control" multiple tagging tagging-label=" - Insira uma Nova Competência" ng-model="colaborador.competencias" theme="bootstrap" title="Insira suas competencias">
-    <ui-select-match placeholder="Insira suas Competências">{{$item.descricao}}</ui-select-match>
-    <ui-select-choices repeat="competencia in competenciaDisponiveis | filter:$select.search">
-      {{competencia.descricao}}
-    </ui-select-choices>
-  </ui-select>
+  <input class="form-control" id="phoneNumber" placeholder="Phone Number" required name="phoneNumber" ng-model="company.phoneNumber" type="text">
 </div>
-<!-- /competencias COLABORADOR -->
-<!-- contatos COLABORADOR -->
+<!-- /COMPANY PHONENUMBER -->
+<!-- COMPANY EMPLOYEES -->
 <div class="form-group">
-  <label for="contatos">Contatos</label>
   <div class="form-inline">
-    <i class="form-control {{setaClasseContato(contatoSelecionado.descricao)}}"></i>
-    <select class="form-control" name="contato" id="contatoSelect" ng-model="contatoSelecionado" required ng-options="contato as contato.descricao for contato in contatosDisponiveis">>
-    </select>
-    <input class="form-control" id="contato" placeholder="Informe seu contato" name="contato" ng-model="contato" type="text">
-    <input value="Novo" type="button" class="pull-right btn btn-warning" ng-click="insereContato(); resetFormCampo(formColab)" ng-disabled="formColab.contato.$pristine"/>
+    <label style="font-size: 200%" for="employees">Employees</label>
+    <input value="New Employee" type="button" class="pull-right btn btn-warning" ng-click="insertEmployee()"/>
   </div>
   <br/><br/>
-  <table class="table table-striped">
-    <tr ng-repeat="contato in colaborador.listaContatos">
-      <td style="width:10px">
-        <i class="{{setaClasseContato(contato.tipo)}}"></i>
-      </td>
-      <td>{{ contato.tipo }}</td>
-      <td>{{ contato.contato }}</td>
-      <td>
-        <button class="pull-right fa fa-times" ng-click="removeContato({{contato}})"></button>
-      </td>
-    </tr>
-  </table>
-</div>
-<!-- /contatos COLABORADOR -->
-<!-- ENDERECO COLABORADOR -->
-<div class="form-group">
-  <div class="form-inline">
-    <i class="fa fa-map-marker fa-2x"></i>
-    <input class="form-control" required style="width:97%" id="endereco" placeholder="Informe seu endereço" name="endereco" ng-model="colaborador.endereco" type="text" ng-blur="search()" my-enter="search()">
+  <div ng-show="company.employeeList.length">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <td>
+            <b>Name</b>
+          </td>
+          <td>
+            <b>Position Title</b>
+          </td>
+          <td>
+            <b>Department</b>
+          </td>
+          <td>
+            <b>Salary</b>
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="employee in company.employeeList">
+          <td>{{ employee.name }}</td>
+          <td>{{ employee.positionTitle }}</td>
+          <td>{{ employee.department }}</td>
+          <td>{{ employee.salary }}</td>
+          <td>
+            <button class="pull-right fa fa-times" ng-click="removeEmployee(employee)"></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-</br>
-
+</div>
+<!-- /COMPANY EMPLOYEES -->
 </form>
 </body>

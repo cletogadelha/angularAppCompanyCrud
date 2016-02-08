@@ -1,33 +1,59 @@
 'use strict';
 
-app.controller('CompanyCtrl', ['$scope', '$resource', 'Company', '$routeParams', '$window',
-  function($scope, $resource, Company, $routeParams, $window) {
+app.controller('CompanyCtrl', ['$scope', '$resource', 'Company', '$routeParams', '$window','$filter',
+  function($scope, $resource, Company, $routeParams, $window, $filter) {
 
     $scope.successMsg = '';
     $scope.errorMsg = '';
 
+    $scope.countries = [
+        { name : 'Brazil',
+          cities: ['Sao Paulo','Brasilia']
+        },
+        { name : 'Denmark',
+          cities : ['Copenhage', 'Aarhus']
+        }
+    ];
+
+    $scope.initCompany = function() {
+      $scope.company = {
+        id: '',
+        name: '',
+        address: '',
+        city: '',
+        country: '',
+        email: '',
+        employeeList: [],
+        benefOwnerList: [],
+        phoneNumber: ''
+      }
+    }
+
+    $scope.setCities = function(country, resetCity){
+        if(resetCity)
+          $scope.company.city = '';
+        if(country){
+          $scope.cities = $filter('filter')($scope.countries, {name : country})[0].cities;
+        }else {
+          $scope.cities = '';
+        }
+    };
+
     if ($routeParams.idCompany) {
-      Colab.get({id: $routeParams.idCompany})
+      Company.get({
+          id: $routeParams.idCompany
+        })
         .$promise.then(function(company) {
           $scope.company = company;
+          $scope.setCities(company.country, false);
         });
     } else {
-      $scope.colaborador = {
-        id: '',
-        imagem: '',
-        nome: '',
-        localTrabalho: '',
-        biografia: '',
-        profissao: '',
-        competencias: [],
-        listaContatos: [],
-        endereco: ''
-      }
+      $scope.initCompany();
     }
 
     $scope.removeCompany = function(id) {
       Company.delete({
-        id: $scope.colaborador.id
+        id: $scope.company.id
       }, function() {
         $scope.successMsg = "Company removed!!";
         $window.location.href = '#/list';
@@ -36,96 +62,41 @@ app.controller('CompanyCtrl', ['$scope', '$resource', 'Company', '$routeParams',
       });
     }
 
-    $scope.setaClasseContato = function(descricao) {
-      if (descricao === 'Telefone Fixo') {
-        return 'fa fa-phone fa-2x';
-      } else if (descricao === 'Telefone Celular') {
-        return 'fa fa-mobile fa-2x';
-      } else if (descricao === 'E-Mail') {
-        return 'fa fa-inbox fa-2x';
-      } else if (descricao === 'Facebook') {
-        return 'fa fa-facebook fa-2x';
-      } else if (descricao === 'Linkedin') {
-        return 'fa fa-linkedin fa-2x';
-      } else if (descricao === 'Google+') {
-        return 'fa fa-google-plus fa-2x';
-      }
-    }
-
-    $scope.contatosDisponiveis = [{
-      descricao: 'Telefone Fixo',
-    }, {
-      descricao: 'Telefone Celular',
-    }, {
-      descricao: 'E-Mail',
-    }, {
-      descricao: 'Facebook',
-    }, {
-      descricao: 'Linkedin',
-    }, {
-      descricao: 'Google+',
-    }]
-
-    $scope.contatoSelecionado = $scope.contatosDisponiveis[0];
     $scope.contato = '';
 
-    $scope.insereContato = function() {
-      var novoContatoColab = {
-        tipo: $scope.contatoSelecionado.descricao,
-        contato: $scope.contato
+    $scope.insertEmployee = function() {
+      var newEmployee = {
+        name: 'Teste',
+        positionTitle: 'Posicao',
+        department : 'departamento',
+        salary : 'R$ 5000,00'
       }
-      $scope.colaborador.listaContatos.push(novoContatoColab);
-      $scope.contatoSelecionado = $scope.contatosDisponiveis[0]
-      $scope.contato = '';
+
+      $scope.company.employeeList.push(newEmployee);
     }
 
-    $scope.removeContato = function(contato) {
-      var index = $scope.colaborador.listaContatos.indexOf(contato);
-      $scope.colaborador.listaContatos.splice(index, 1);
+    $scope.removeEmployee = function(employee) {
+      var index = $scope.company.employeeList.indexOf(employee);
+      $scope.company.employeeList.splice(index, 1);
     }
 
-    $scope.resetFormCampo = function(form) {
-      if (form) {
-        form.contato.$setPristine();
-      }
-    }
+    $scope.saveCompany = function() {
 
-    $scope.uploadArquivo = function() {
-      alert('teste')
-    }
+      $scope.successMsg = '';
+      $scope.errorMsg = '';
 
-    $scope.salvarColaborador = function() {
+      var company = new Company($scope.company);
 
-      $scope.mensagemSucesso = '';
-      $scope.messageErro = '';
-
-      var colab = new Colab($scope.colaborador);
-
-      colab.$save()
+      company.$save()
         .then(function(res) {
-          $scope.mensagemSucesso = "Colaborador Salvo com sucesso!";
-
-          $scope.contatosInseridos = [];
-          $scope.contato = '';
-          $scope.searchPlace = '';
-
-          $scope.colaborador = {
-            id: '',
-            imagem: '',
-            nome: '',
-            localTrabalho: '',
-            biografia: '',
-            profissao: '',
-            competencias: '',
-            listaContatos: [],
-            endereco: ''
-          }
+          $scope.successMsg = "Company saved!";
+          $scope.initCompany();
         })
         .catch(function(req) {
-          $scope.messageErro = "Erro ao salvar o colaborador;"
+          $scope.errorMsg = "Error saving company;"
         });
 
-      var element = $window.document.getElementById('cabecalho').scrollIntoView();
+      var element = $window.document.getElementById('header').scrollIntoView();
 
     }
 

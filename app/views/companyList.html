@@ -3,18 +3,18 @@
 <body class="skin-blue" ng-controller="ListCtrl">
   <section class="content">
     <div id="divMsg">
-      <div class="alert alert-success" ng-show="mensagemSucesso">
-        {{mensagemSucesso}}
+      <div class="alert alert-success" ng-show="successMsg">
+        {{successMsg}}
       </div>
-      <div class="alert alert-danger" ng-show="mensagemErro">
-        {{mensagemErro}}
+      <div class="alert alert-danger" ng-show="errorMsg">
+        {{errorMsg}}
       </div>
     </div>
 
     <div class="row form-group">
       <p align="right">
         <h1 style="float: left">Companies</h1>
-        <a style="float: right; position: relative; top: 30px;" class="pull-rigth glyphicon glyphicon-plus btn btn-primary" ng-href="#/colaborador">
+        <a style="float: right; position: relative; top: 30px;" class="pull-rigth glyphicon glyphicon-plus btn btn-primary" ng-href="#/company">
           New
         </a>
       </p>
@@ -38,7 +38,7 @@
             <p>Employees:
               {{company.employeeList.length}}</p>
           </div>
-          <a class="small-box-footer" ng-href="#/colaborador/{{colab.id}}">
+          <a class="small-box-footer" ng-href="#/company/{{company.id}}">
             More Information
             <i class="fa fa-arrow-circle-right"></i>
           </a>
