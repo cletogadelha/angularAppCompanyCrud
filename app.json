@@ -1,0 +1,5 @@
+{
+  "name": "Angular App Company CRUD",
+  "description": "An example app.json for heroku-docker",
+  "image": "heroku/nodejs"
+}
