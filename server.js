@@ -5,4 +5,8 @@ var app = express();
 
 app.use(logger('dev'));
 app.use(gzippo.staticGzip("" + __dirname + "/dist"));
-app.listen(process.env.PORT || 5000);
+
+var server = app.listen(process.env.PORT || 5000, function () {
+  var port = server.address().port;
+  console.log('Example app listening at http://localhost:%s', port);
+});

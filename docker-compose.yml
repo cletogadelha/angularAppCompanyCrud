@@ -1,7 +1,21 @@
 web:
   build: .
-  command: 'bash -c ''node web.js'''
+  command: 'bash -c ''npm install; node server.js'''
+  working_dir: /app/user
   volumes:
-    - "./app:/src/app"
+   - ./:/app/user/
+   - /app/user/node_modules
+  environment:
+    PORT: 8080
   ports:
-    - "3030:3000"
+    - '8080:8080'
+shell:
+  build: .
+  command: bash
+  working_dir: /app/user
+  environment:
+    PORT: 8080
+  ports:
+    - '8080:8080'
+  volumes:
+    - '.:/app/user'
