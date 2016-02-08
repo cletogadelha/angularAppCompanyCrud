@@ -1,7 +1,7 @@
 {
   "name": "angularspring",
   "private": true,
-  "main" : "server.js",
+  "main": "server.js",
   "devDependencies": {
     "autoprefixer-core": "^5.2.1",
     "grunt": "^0.4.5",
@@ -39,9 +39,10 @@
   },
   "scripts": {
     "test": "grunt test",
-    "start" : "node server.js"
+    "start": "node server.js"
   },
   "dependencies": {
+    "bower": "^1.7.7",
     "express": "^4.13.4",
     "gzippo": "^0.2.0",
     "morgan": "^1.6.1"
