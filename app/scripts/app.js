@@ -36,7 +36,7 @@ var app = angular
         controller: 'CompanyCtrl'
       })
       .when('/company/:idCompany', {
-        templateUrl: 'views/infoColaboradorView.html',
+        templateUrl: 'views/infoCompanyView.html',
         controller: 'InfoCompanyCtrl'
       })
       .otherwise({
