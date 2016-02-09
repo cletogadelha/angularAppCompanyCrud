@@ -10,4 +10,6 @@ RUN gem install sass --no-ri --no-rdoc && \
     gem install compass --no-ri --no-rdoc
 
 # Install Bower & Grunt
-RUN npm install -g bower grunt-cli
+RUN npm install -g bower grunt grunt-cli
+
+RUN grunt build
