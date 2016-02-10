@@ -87,6 +87,11 @@ app.controller('CompanyCtrl', ['$scope', '$resource', 'Company', '$routeParams',
 
       var company = new Company($scope.company);
 
+      if(!company.employeeList.length){
+        $scope.errorMsg = 'You need to register at least one employee!';
+        return;
+      }
+
       company.$save()
         .then(function(res) {
           $scope.successMsg = "Company saved!";
